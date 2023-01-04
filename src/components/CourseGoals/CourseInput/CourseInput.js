@@ -48,6 +48,7 @@ const CourseInput = (props) => {
       return;
     }
     props.onAddGoal(enteredValue);
+    setEnteredValue("");
   };
 
   return (
@@ -56,7 +57,13 @@ const CourseInput = (props) => {
         className={`${styles["form-control"]} ${!isValid && styles.invalid}`}
       >
         <label>Course Goal</label>
-        <input type="text" onChange={goalInputChangeHandler} />
+        <p>Note: Maximum input length is 15</p>
+        <input
+          value={enteredValue}
+          maxLength="15"
+          type="text"
+          onChange={goalInputChangeHandler}
+        />
       </div>
       <Button type="submit">Add Goal</Button>
     </form>

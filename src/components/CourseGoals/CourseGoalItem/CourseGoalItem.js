@@ -1,5 +1,7 @@
 import React from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./CourseGoalItem.css";
 
 const CourseGoalItem = (props) => {
@@ -11,8 +13,16 @@ const CourseGoalItem = (props) => {
   };
 
   return (
-    <li className="goal-item" onClick={deleteHandler}>
+    <li className="goal-item">
       {props.children}
+      <div className="actions">
+        <span>
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </span>
+        <span onClick={deleteHandler}>
+          <FontAwesomeIcon icon={faTrashCan} />
+        </span>
+      </div>
     </li>
   );
 };
