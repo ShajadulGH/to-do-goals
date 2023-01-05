@@ -19,8 +19,10 @@ const App = () => {
   const updateHandler = (enteredText, goalId) => {
     console.log(enteredText, goalId);
     setCourseGoals((prevGoals) => {
-      const updatedGoals = prevGoals.filter((goal) => goal.id !== goalId);
-      updatedGoals.unshift({ text: enteredText, id: goalId });
+      const updatedGoals = [...prevGoals];
+      const index = courseGoals.findIndex((goal) => goal.id === goalId);
+      console.log(index);
+      updatedGoals[index] = { text: enteredText, id: goalId };
       return updatedGoals;
     });
     setIsEditing(false);
@@ -35,8 +37,6 @@ const App = () => {
     setIsEditing(true);
     console.log(goalId);
     const editingGoal = courseGoals.filter((goal) => goal.id === goalId);
-    // const editingGoalText = editingGoal[0].text;
-    // const editingGoalText = editingGoal[0].text;
     setEditingData({
       editingGoalID: editingGoal[0].id,
       editingGoalText: editingGoal[0].text,
