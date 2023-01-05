@@ -5,16 +5,13 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./CourseGoalItem.css";
 
 const CourseGoalItem = (props) => {
-  // const [deleteText, setDeleteText] = useState('');
-
   const deleteHandler = () => {
-    // setDeleteText('(Deleted!)');
     props.onDelete(props.id);
   };
 
   return (
     <li className="goal-item">
-      {props.children}
+      <div className="text"> {props.children}</div>
       <div className="actions">
         <span>
           <FontAwesomeIcon icon={faPenToSquare} />
