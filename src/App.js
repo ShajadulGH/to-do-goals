@@ -6,6 +6,8 @@ import "./App.css";
 
 const App = () => {
   const [courseGoals, setCourseGoals] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingData, setEditingData] = useState();
 
   const addGoalHandler = (enteredText) => {
     setCourseGoals((prevGoals) => {
@@ -14,12 +16,32 @@ const App = () => {
       return updatedGoals;
     });
   };
-
+  const updateHandler = (enteredText, goalId) => {
+    console.log(enteredText, goalId);
+    setCourseGoals((prevGoals) => {
+      const updatedGoals = prevGoals.filter((goal) => goal.id !== goalId);
+      updatedGoals.unshift({ text: enteredText, id: goalId });
+      return updatedGoals;
+    });
+    setIsEditing(false);
+  };
   const deleteItemHandler = (goalId) => {
     setCourseGoals((prevGoals) => {
       const updatedGoals = prevGoals.filter((goal) => goal.id !== goalId);
       return updatedGoals;
     });
+  };
+  const editHandler = (goalId) => {
+    setIsEditing(true);
+    console.log(goalId);
+    const editingGoal = courseGoals.filter((goal) => goal.id === goalId);
+    // const editingGoalText = editingGoal[0].text;
+    // const editingGoalText = editingGoal[0].text;
+    setEditingData({
+      editingGoalID: editingGoal[0].id,
+      editingGoalText: editingGoal[0].text,
+    });
+    console.log(editingData);
   };
 
   let content = (
@@ -28,14 +50,23 @@ const App = () => {
 
   if (courseGoals.length > 0) {
     content = (
-      <CourseGoalList items={courseGoals} onDeleteItem={deleteItemHandler} />
+      <CourseGoalList
+        items={courseGoals}
+        onEditItem={editHandler}
+        onDeleteItem={deleteItemHandler}
+      />
     );
   }
 
   return (
     <div>
       <section id="goal-form">
-        <CourseInput onAddGoal={addGoalHandler} />
+        <CourseInput
+          editingData={editingData}
+          isEditing={isEditing}
+          onAddGoal={addGoalHandler}
+          onUpdateGoal={updateHandler}
+        />
       </section>
       <section id="goals">{content}</section>
     </div>

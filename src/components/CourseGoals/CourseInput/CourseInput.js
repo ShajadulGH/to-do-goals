@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-// import styled from "styled-components";
 import Button from "../../UI/Button/Button";
 import styles from "./CourseInput.module.css";
-const CourseInput = (props) => {
+let x = 0;
+const CourseInput = ({ isEditing, editingData, onUpdateGoal, onAddGoal }) => {
   const [enteredValue, setEnteredValue] = useState("");
+  if (isEditing && x === 0) {
+    setEnteredValue(editingData.editingGoalText);
+    x = 1;
+  }
   const [isValid, setIsValid] = useState(true);
+
   const goalInputChangeHandler = (event) => {
     if (event.target.value.trim().length > 0) {
       setIsValid(true);
@@ -18,10 +23,15 @@ const CourseInput = (props) => {
       setIsValid(false);
       return;
     }
-    props.onAddGoal(enteredValue);
-    setEnteredValue("");
+    if (isEditing) {
+      onUpdateGoal(enteredValue, editingData.editingGoalID);
+      setEnteredValue("");
+    } else {
+      onAddGoal(enteredValue);
+      setEnteredValue("");
+    }
+    x = 0;
   };
-
   return (
     <form onSubmit={formSubmitHandler}>
       <div
@@ -34,7 +44,11 @@ const CourseInput = (props) => {
           onChange={goalInputChangeHandler}
         />
       </div>
-      <Button type="submit">Add Goal</Button>
+      {isEditing ? (
+        <Button type="submit">Edit Goal</Button>
+      ) : (
+        <Button type="submit">Add Goal</Button>
+      )}
     </form>
   );
 };

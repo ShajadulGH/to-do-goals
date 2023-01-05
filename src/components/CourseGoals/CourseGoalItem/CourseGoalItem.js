@@ -8,12 +8,15 @@ const CourseGoalItem = (props) => {
   const deleteHandler = () => {
     props.onDelete(props.id);
   };
+  const editHandler = () => {
+    props.onEdit(props.id);
+  };
 
   return (
     <li className="goal-item">
-      <div className="text"> {props.children}</div>
+      <div className="text"> {props.text}</div>
       <div className="actions">
-        <span>
+        <span onClick={editHandler}>
           <FontAwesomeIcon icon={faPenToSquare} />
         </span>
         <span onClick={deleteHandler}>
